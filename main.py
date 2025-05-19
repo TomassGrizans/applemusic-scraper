@@ -10,7 +10,7 @@ loadtime = 6 #page loadtime
 
 def extract_songs_and_artists(url):
     options = Options()
-    #options.add_argument("--headless")       
+    options.add_argument("--headless")       
     options.add_argument("--disable-gpu")    
     options.add_argument("--window-size=1920,1080")  
     driver = webdriver.Chrome(options=options)
@@ -23,7 +23,6 @@ def extract_songs_and_artists(url):
     ActionChains(driver).move_to_element_with_offset(body_elem, 300, 20).click().perform()
     time.sleep(2)
     
-    # Try to locate the scrollable container.
     try:
         container = driver.find_element(By.CSS_SELECTOR, "div.songs-list")
     except Exception:
@@ -64,7 +63,7 @@ def extract_songs_and_artists(url):
     final_html = driver.page_source
     driver.quit()
     
-    # Parse the final HTML to extract songs and artists.
+    # Parse
     soup = BeautifulSoup(final_html, "html.parser")
     songs_data = []
     for row in soup.find_all("div", class_="songs-list-row"):
@@ -85,7 +84,11 @@ def extract_songs_and_artists(url):
     return songs_data
 
 def main():
-    playlist_url = "https://music.apple.com/lv/playlist/%C5%A1l%C4%81geris/pl.u-KVXBBJ6FZxDPz2B"
+    # example links:
+    #https://music.apple.com/lv/playlist/%C5%A1l%C4%81geris/pl.u-KVXBBJ6FZxDPz2B
+    #https://music.apple.com/lv/playlist/british-invasion-essentials/pl.3041e43dff234643b9066a1b069e82fa
+
+    playlist_url = "https://music.apple.com/lv/playlist/%C5%A1l%C4%81geris/pl.u-KVXBBJ6FZxDPz2B" 
     songs_and_artists = extract_songs_and_artists(playlist_url)
     
     print("\nCollected tracks:")
